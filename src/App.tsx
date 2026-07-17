@@ -20,7 +20,7 @@ export default function App() {
     subtractQuantity, addProduct, deleteProduct,
   } = useInventory();
 
-  const { messages, isLoading, pendingAction, sendMessage, confirmAction, cancelAction } = useChat({
+  const { messages, isLoading, pendingAction, sendMessage, sendAudio, confirmAction, cancelAction } = useChat({
     products,
     onInventoryAction: applyAction,
   });
@@ -111,6 +111,7 @@ export default function App() {
         messages={messages}
         isLoading={isLoading}
         onSendMessage={sendMessage}
+        onSendAudio={sendAudio}
       />
 
       {pendingAction && (

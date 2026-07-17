@@ -150,7 +150,7 @@ const TOOLS = [
 ];
 
 app.post('/api/chat', async (req, res) => {
-  const { messages, inventory } = req.body;
+  const { messages, inventory, audio, audioMimeType } = req.body;
 
   if (!process.env.ANTHROPIC_API_KEY) {
     return res.status(500).json({ success: false, error: 'מפתח API לא מוגדר. צור קובץ .env עם ANTHROPIC_API_KEY.' });
@@ -196,6 +196,14 @@ ${inventoryText}
 
   try {
     const apiMessages = messages.map(m => ({ role: m.role, content: m.content }));
+
+    // If audio was sent, append it as a native audio content block
+    if (audio) {
+      apiMessages.push({
+        role: 'user',
+        content: [{ type: 'audio', source: { type: 'base64', media_type: audioMimeType || 'audio/webm', data: audio } }],
+      });
+    }
 
     const response = await client.messages.create({
       model: 'claude-sonnet-4-6',

@@ -101,6 +101,63 @@ export function useChat({ products, onInventoryAction }: UseChatOptions) {
     }
   }, [messages, products, isLoading, addMessage]);
 
+  const sendAudio = useCallback(async (audioBase64: string, mimeType: string) => {
+    if (isLoading) return;
+
+    const userMessage: Message = {
+      id: `u-${Date.now()}`,
+      role: 'user',
+      content: '🎙️',
+      timestamp: new Date(),
+      skipFromHistory: true,
+    };
+
+    setMessages(prev => [...prev, userMessage]);
+    setIsLoading(true);
+
+    try {
+      const history = messages
+        .filter(m => !m.skipFromHistory)
+        .slice(-24)
+        .map(m => ({ role: m.role, content: m.content }));
+
+      const response = await fetch('/api/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ messages: history, inventory: products, audio: audioBase64, audioMimeType: mimeType }),
+      });
+
+      const data = await response.json();
+      if (!data.success) throw new Error(data.error ?? 'שגיאה לא ידועה');
+
+      const aiResponse: AIResponse = data.response;
+
+      setMessages(prev => [...prev, {
+        id: `a-${Date.now()}`,
+        role: 'assistant',
+        content: aiResponse.message,
+        response: aiResponse,
+        timestamp: new Date(),
+      }]);
+
+      if (aiResponse.type === 'confirmation' && aiResponse.action) {
+        setPendingAction({ action: aiResponse.action, confirmMessage: aiResponse.message });
+      }
+    } catch (err) {
+      const errorText = err instanceof Error ? err.message : 'שגיאה לא ידועה';
+      addMessage({
+        id: `e-${Date.now()}`,
+        role: 'assistant',
+        content: `מצטער, אירעה שגיאה: ${errorText}`,
+        response: { type: 'error', message: errorText },
+        timestamp: new Date(),
+        skipFromHistory: true,
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  }, [messages, products, isLoading, addMessage]);
+
   const confirmAction = useCallback(() => {
     if (!pendingAction) return;
     onInventoryAction(pendingAction.action);
@@ -127,5 +184,5 @@ export function useChat({ products, onInventoryAction }: UseChatOptions) {
     setPendingAction(null);
   }, [addMessage]);
 
-  return { messages, isLoading, pendingAction, sendMessage, confirmAction, cancelAction };
+  return { messages, isLoading, pendingAction, sendMessage, sendAudio, confirmAction, cancelAction };
 }
