@@ -278,7 +278,7 @@ function PreparingRow({
   const unitsInStock = stockInUnits(item);
   const overStock = unitsInStock != null && item.quantityTaken > unitsInStock;
   const label = unitLabel(item);
-  const perUnitCost = unitCost(item);
+  const perUnitPrice = unitPrice(item);
 
   return (
     <tr className={`border-b border-gray-100 ${isTaken ? 'bg-blue-50/50' : 'bg-white'}`}>
@@ -293,8 +293,8 @@ function PreparingRow({
             <span className="bg-blue-50 text-blue-700 px-1.5 py-0.5 rounded font-semibold">
               יחידה = {label}
             </span>
-            {perUnitCost > 0 && (
-              <span className="text-red-600">עלות: ₪{perUnitCost.toFixed(1)}/יח׳</span>
+            {perUnitPrice > 0 && (
+              <span className="text-green-700">₪{perUnitPrice.toFixed(1)}/יח׳</span>
             )}
           </div>
         </div>

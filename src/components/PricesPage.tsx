@@ -166,8 +166,6 @@ export function PricesPage({ products, onUpdatePrice, onUpdateMeta }: PricesPage
             <thead className="bg-gray-100 border-b border-gray-200 sticky top-0 z-10">
               <tr className="text-xs font-semibold text-gray-600 text-right">
                 <Th label="מוצר" sortKey="name" currentSort={sortKey} dir={sortDir} onClick={handleSort} />
-                <Th label="מחיר ספק" sortKey="supplierPrice" currentSort={sortKey} dir={sortDir} onClick={handleSort} align="center" />
-                <Th label="מחיר מכירה" sortKey="sellingPrice" currentSort={sortKey} dir={sortDir} onClick={handleSort} align="center" />
                 <Th label="גודל אריזה" sortKey="packPrice" currentSort={sortKey} dir={sortDir} onClick={handleSort} align="center" hideOnMobile />
                 <Th label="מחיר / יחידה" sortKey="packPrice" currentSort={sortKey} dir={sortDir} onClick={handleSort} align="center" />
                 <Th label="רווח" sortKey="profit" currentSort={sortKey} dir={sortDir} onClick={handleSort} align="center" hideOnMobile />
@@ -203,30 +201,6 @@ export function PricesPage({ products, onUpdatePrice, onUpdateMeta }: PricesPage
                         )}
                         <p className="text-[10px] text-gray-400">{p.category}</p>
                       </div>
-                    </td>
-
-                    {/* Supplier price (per storage unit) */}
-                    <td className="px-3 py-2.5 text-center">
-                      {p.supplierPrice != null ? (
-                        <div>
-                          <span className="text-sm font-bold text-red-600">{fmt(p.supplierPrice)}</span>
-                          <p className="text-[10px] text-gray-400">/{p.unit}</p>
-                        </div>
-                      ) : (
-                        <span className="text-[11px] text-orange-500 italic">חסר</span>
-                      )}
-                    </td>
-
-                    {/* Selling price (per storage unit) */}
-                    <td className="px-3 py-2.5 text-center">
-                      {p.sellingPrice != null ? (
-                        <div>
-                          <span className="text-sm font-bold text-green-700">{fmt(p.sellingPrice)}</span>
-                          <p className="text-[10px] text-gray-400">/{p.unit}</p>
-                        </div>
-                      ) : (
-                        <span className="text-[11px] text-orange-500 italic">חסר</span>
-                      )}
                     </td>
 
                     {/* Pack size — only relevant for weight-based products */}
