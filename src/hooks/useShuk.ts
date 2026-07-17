@@ -65,7 +65,7 @@ export function useShuk() {
       category: p.category,
       unit: p.unit,
       packSize: p.packSize,
-      quantityTaken: 0,
+      quantityTaken: 1,
       quantitySold: null,
       supplierPrice: p.supplierPrice ?? 0,
       sellingPrice: p.sellingPrice ?? 0,
