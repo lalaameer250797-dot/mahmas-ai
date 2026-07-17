@@ -1,0 +1,7 @@
+node_modules/
+.env
+dist/
+data/mahmas.db
+data/mahmas.db-shm
+data/mahmas.db-wal
+data/backups/

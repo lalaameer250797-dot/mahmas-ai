@@ -1,0 +1,76 @@
+@import url('https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700;800&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  font-family: 'Heebo', Arial, sans-serif;
+  direction: rtl;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #f1f5f9;
+}
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+/* Typing indicator animation */
+@keyframes bounce-dot {
+  0%, 60%, 100% { transform: translateY(0); }
+  30% { transform: translateY(-8px); }
+}
+
+.dot-1 { animation: bounce-dot 1.2s infinite 0ms; }
+.dot-2 { animation: bounce-dot 1.2s infinite 150ms; }
+.dot-3 { animation: bounce-dot 1.2s infinite 300ms; }
+
+/* Mic pulse animation */
+@keyframes mic-pulse {
+  0% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.4); }
+  70% { box-shadow: 0 0 0 12px rgba(239, 68, 68, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
+}
+
+.mic-active {
+  animation: mic-pulse 1.5s ease-out infinite;
+}
+
+/* Auto-resize textarea */
+textarea {
+  overflow-y: auto;
+  field-sizing: content;
+}
+
+/* Sheet/modal animations */
+@keyframes slide-up {
+  from { transform: translateY(100%); }
+  to   { transform: translateY(0); }
+}
+@keyframes fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+.animate-slide-up { animation: slide-up 0.25s cubic-bezier(0.16, 1, 0.3, 1); }
+.animate-fade-in  { animation: fade-in 0.2s ease-out; }
+
+/* Hide native scrollbar on horizontal chip rows */
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { scrollbar-width: none; -ms-overflow-style: none; }

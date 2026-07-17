@@ -1,0 +1,373 @@
+[
+  {
+    "id": "oats",
+    "name": "שיבולת שועל",
+    "arabicName": "الشوفان",
+    "aliases": ["שיבולת", "אוטמיל", "oats", "الشوفان"],
+    "quantity": 0, "unit": "ק\"ג", "category": "דגנים", "minQuantity": 0
+  },
+  {
+    "id": "sesame-white",
+    "name": "שומשום לבן",
+    "arabicName": "السمسم الأبيض",
+    "aliases": ["שומשום", "שומשום לבן", "sesame", "السمسم الأبيض"],
+    "quantity": 0, "unit": "ק\"ג", "category": "זרעים", "minQuantity": 0
+  },
+  {
+    "id": "sesame-brown",
+    "name": "שומשום חום",
+    "arabicName": "السمسم البني",
+    "aliases": ["שומשום חום", "שומשום כהה", "السمسم البني"],
+    "quantity": 0, "unit": "ק\"ג", "category": "זרעים", "minQuantity": 0
+  },
+  {
+    "id": "chia",
+    "name": "זרעי צ'יה",
+    "arabicName": "بذور الشيا",
+    "aliases": ["צ'יה", "chia", "بذور الشيا"],
+    "quantity": 0, "unit": "ק\"ג", "category": "זרעים", "minQuantity": 0
+  },
+  {
+    "id": "flax",
+    "name": "פשתן",
+    "arabicName": "كتان",
+    "aliases": ["פשתן", "flax", "linseed", "كتان"],
+    "quantity": 0, "unit": "ק\"ג", "category": "זרעים", "minQuantity": 0
+  },
+  {
+    "id": "nigella",
+    "name": "קצח",
+    "arabicName": "قزحة",
+    "aliases": ["קצח", "שחורה", "nigella", "قزحة"],
+    "quantity": 0, "unit": "ק\"ג", "category": "זרעים", "minQuantity": 0
+  },
+  {
+    "id": "pumpkin-seeds",
+    "name": "גרעיני דלעת",
+    "arabicName": "بزر قرع",
+    "aliases": ["דלעת", "pumpkin seeds", "بزر قرع"],
+    "quantity": 0, "unit": "ק\"ג", "category": "זרעים", "minQuantity": 0
+  },
+  {
+    "id": "sunflower-seeds",
+    "name": "גרעיני חמניה",
+    "arabicName": "بزر عباد",
+    "aliases": ["חמניה", "גרעינים", "sunflower", "بزر عباد"],
+    "quantity": 0, "unit": "ק\"ג", "category": "זרעים", "minQuantity": 0
+  },
+  {
+    "id": "pine-nuts",
+    "name": "צנוברים",
+    "arabicName": "سنوبر",
+    "aliases": ["צנובר", "pine nuts", "سنوبر"],
+    "quantity": 0, "unit": "ק\"ג", "category": "אגוזים", "minQuantity": 0
+  },
+  {
+    "id": "almonds-raw",
+    "name": "שקדים גולמיים",
+    "arabicName": "لوز ني",
+    "aliases": ["שקדים", "שקד", "almonds", "لوز ني"],
+    "quantity": 0, "unit": "ק\"ג", "category": "אגוזים", "minQuantity": 0
+  },
+  {
+    "id": "herbal-tea",
+    "name": "תערובת תה (זהורות)",
+    "arabicName": "خلطة شاي (زهورات)",
+    "aliases": ["זהורות", "תה", "خلطة شاي", "زهورات"],
+    "quantity": 0, "unit": "ק\"ג", "category": "תה וצמחים", "minQuantity": 0
+  },
+  {
+    "id": "chamomile",
+    "name": "קמומיל (בבונג)",
+    "arabicName": "بابونج",
+    "aliases": ["קמומיל", "בבונג", "chamomile", "بابونج"],
+    "quantity": 0, "unit": "ק\"ג", "category": "תה וצמחים", "minQuantity": 0
+  },
+  {
+    "id": "philadelphia-herb",
+    "name": "פילדלפיה",
+    "arabicName": "فيلدلفيا",
+    "aliases": ["פילדלפיה", "فيلدلفيا"],
+    "quantity": 0, "unit": "ק\"ג", "category": "תה וצמחים", "minQuantity": 0
+  },
+  {
+    "id": "raisins",
+    "name": "צימוקים",
+    "arabicName": "زبيب",
+    "aliases": ["צימוק", "raisins", "زبيب"],
+    "quantity": 0, "unit": "ק\"ג", "category": "פירות יבשים", "minQuantity": 0
+  },
+  {
+    "id": "chickpea-snacks",
+    "name": "חומוסיות",
+    "arabicName": "حمصيات",
+    "aliases": ["חומוס", "חומוסיות", "حمصيات"],
+    "quantity": 0, "unit": "ק\"ג", "category": "חטיפים", "minQuantity": 0
+  },
+  {
+    "id": "paprika-hot-coarse",
+    "name": "פפריקה חריפה גרוסה",
+    "arabicName": "بابريكا حارة جروس",
+    "aliases": ["פפריקה גרוסה", "بابريكا حارة جروس"],
+    "quantity": 0, "unit": "ק\"ג", "category": "תבלינים", "minQuantity": 0
+  },
+  {
+    "id": "paprika-hot-ground",
+    "name": "פפריקה חריפה טחונה",
+    "arabicName": "بابريكا حارة مطحونة",
+    "aliases": ["פפריקה חריפה", "بابريكا حارة مطحونة"],
+    "quantity": 0, "unit": "ק\"ג", "category": "תבלינים", "minQuantity": 0
+  },
+  {
+    "id": "paprika-sweet",
+    "name": "פפריקה מתוקה",
+    "arabicName": "بابريكا حلوة",
+    "aliases": ["פפריקה", "paprika", "بابريكا حلوة"],
+    "quantity": 0, "unit": "ק\"ג", "category": "תבלינים", "minQuantity": 0
+  },
+  {
+    "id": "black-pepper-ground",
+    "name": "פלפל שחור טחון",
+    "arabicName": "فلفل أسود مطحون",
+    "aliases": ["פלפל שחור", "פלפל טחון", "فلفل أسود مطحون"],
+    "quantity": 0, "unit": "ק\"ג", "category": "תבלינים", "minQuantity": 0
+  },
+  {
+    "id": "black-pepper-coarse",
+    "name": "פלפל שחור גרוס",
+    "arabicName": "فلفل أسود جروس",
+    "aliases": ["פלפל גרוס", "فلفل أسود جروس"],
+    "quantity": 0, "unit": "ק\"ג", "category": "תבלינים", "minQuantity": 0
+  },
+  {
+    "id": "black-pepper-whole",
+    "name": "פלפל שחור גרגרים",
+    "arabicName": "فلفل أسود حب",
+    "aliases": ["פלפל גרגרים", "فلفل أسود حب"],
+    "quantity": 0, "unit": "ק\"ג", "category": "תבלינים", "minQuantity": 0
+  },
+  {
+    "id": "mixed-spice",
+    "name": "תבלין מעורב",
+    "arabicName": "بهار مشكل",
+    "aliases": ["מיקס", "بهار مشكل"],
+    "quantity": 0, "unit": "ק\"ג", "category": "תבלינים", "minQuantity": 0
+  },
+  {
+    "id": "potato-spice",
+    "name": "תבלין תפוחי אדמה",
+    "arabicName": "بهار بطاطا",
+    "aliases": ["בטטה", "بهار بطاطا"],
+    "quantity": 0, "unit": "ק\"ג", "category": "תבלינים", "minQuantity": 0
+  },
+  {
+    "id": "shawarma-spice",
+    "name": "תבלין שווארמה",
+    "arabicName": "بهار شاورما",
+    "aliases": ["שווארמה", "بهار شاورما"],
+    "quantity": 0, "unit": "ק\"ג", "category": "תבלינים", "minQuantity": 0
+  },
+  {
+    "id": "kubeh-spice",
+    "name": "תבלין קובה",
+    "arabicName": "بهار قبة",
+    "aliases": ["קובה", "بهار قبة"],
+    "quantity": 0, "unit": "ק\"ג", "category": "תבלינים", "minQuantity": 0
+  },
+  {
+    "id": "rice-spice",
+    "name": "תבלין אורז",
+    "arabicName": "بهار رز",
+    "aliases": ["אורז", "بهار رز"],
+    "quantity": 0, "unit": "ק\"ג", "category": "תבלינים", "minQuantity": 0
+  },
+  {
+    "id": "fish-spice",
+    "name": "תבלין דגים",
+    "arabicName": "بهار سمك",
+    "aliases": ["דגים", "بهار سمك"],
+    "quantity": 0, "unit": "ק\"ג", "category": "תבלינים", "minQuantity": 0
+  },
+  {
+    "id": "pizza-spice",
+    "name": "תבלין פיצה",
+    "arabicName": "بهار بيتزا",
+    "aliases": ["פיצה", "بهار بيتزا"],
+    "quantity": 0, "unit": "ק\"ג", "category": "תבלינים", "minQuantity": 0
+  },
+  {
+    "id": "abu-raiha-spice",
+    "name": "תבלין אבו ריחה",
+    "arabicName": "بهار أبو ريحة",
+    "aliases": ["אבו ריחה", "بهار أبو ريحة"],
+    "quantity": 0, "unit": "ק\"ג", "category": "תבלינים", "minQuantity": 0
+  },
+  {
+    "id": "schnitzel-spice",
+    "name": "תבלין שניצל",
+    "arabicName": "بهار شنيتسل",
+    "aliases": ["שניצל", "بهار شنيتسل"],
+    "quantity": 0, "unit": "ק\"ג", "category": "תבלינים", "minQuantity": 0
+  },
+  {
+    "id": "chicken-spice",
+    "name": "תבלין עוף",
+    "arabicName": "بهار دجاج",
+    "aliases": ["עוף", "بهار دجاج"],
+    "quantity": 0, "unit": "ק\"ג", "category": "תבלינים", "minQuantity": 0
+  },
+  {
+    "id": "saffron",
+    "name": "זעפרן",
+    "arabicName": "زعفران",
+    "aliases": ["saffron", "זעפרן", "زعفران"],
+    "quantity": 0, "unit": "גרם", "category": "תבלינים", "minQuantity": 0
+  },
+  {
+    "id": "ginger-dried",
+    "name": "זנגביל מיובש",
+    "arabicName": "زنجبيل مجفف",
+    "aliases": ["ג'ינג'ר מיובש", "زنجبيل مجفف", "זנגביל"],
+    "quantity": 0, "unit": "ק\"ג", "category": "תבלינים", "minQuantity": 0
+  },
+  {
+    "id": "ginger-ground",
+    "name": "זנגביל טחון",
+    "arabicName": "زنجبيل مطحون",
+    "aliases": ["ג'ינג'ר טחון", "زنجبيل مطحون"],
+    "quantity": 0, "unit": "ק\"ג", "category": "תבלינים", "minQuantity": 0
+  },
+  {
+    "id": "ginger-sticks",
+    "name": "זנגביל מקלות",
+    "arabicName": "زنجبيل عيدان",
+    "aliases": ["זנגביל מקלות", "زنجبيل عيدان"],
+    "quantity": 0, "unit": "ק\"ג", "category": "תבלינים", "minQuantity": 0
+  },
+  {
+    "id": "dry-onion",
+    "name": "בצל יבש",
+    "arabicName": "بصل يابس",
+    "aliases": ["בצל", "بصل يابس"],
+    "quantity": 0, "unit": "ק\"ג", "category": "תבלינים", "minQuantity": 0
+  },
+  {
+    "id": "cardamom-green",
+    "name": "הל ירוק",
+    "arabicName": "هيل أخضر",
+    "aliases": ["הל", "cardamom", "هيل أخضر"],
+    "quantity": 0, "unit": "ק\"ג", "category": "תבלינים", "minQuantity": 0
+  },
+  {
+    "id": "cardamom-medium",
+    "name": "הל בינוני",
+    "arabicName": "هيل وسط حب",
+    "aliases": ["הל בינוני", "هيل وسط حب"],
+    "quantity": 0, "unit": "ק\"ג", "category": "תבלינים", "minQuantity": 0
+  },
+  {
+    "id": "cloves",
+    "name": "ציפורן",
+    "arabicName": "قرنفل حب",
+    "aliases": ["ציפורן", "cloves", "قرنفل حب"],
+    "quantity": 0, "unit": "ק\"ג", "category": "תבלינים", "minQuantity": 0
+  },
+  {
+    "id": "cumin-seeds",
+    "name": "כמון גרגרים",
+    "arabicName": "كمون حب",
+    "aliases": ["כמון שלם", "cumin seeds", "كمون حب"],
+    "quantity": 0, "unit": "ק\"ג", "category": "תבלינים", "minQuantity": 0
+  },
+  {
+    "id": "cumin-ground",
+    "name": "כמון טחון",
+    "arabicName": "كمون مطحون",
+    "aliases": ["כמון", "cumin", "كمون مطحون"],
+    "quantity": 0, "unit": "ק\"ג", "category": "תבלינים", "minQuantity": 0
+  },
+  {
+    "id": "nutmeg",
+    "name": "אגוז מוסקט",
+    "arabicName": "جوزة الطيب",
+    "aliases": ["מוסקט", "nutmeg", "جوزة الطيب"],
+    "quantity": 0, "unit": "ק\"ג", "category": "תבלינים", "minQuantity": 0
+  },
+  {
+    "id": "anise-seeds",
+    "name": "אניסון גרגרים",
+    "arabicName": "يانسون حب",
+    "aliases": ["אניסון שלם", "anise", "يانسون حب"],
+    "quantity": 0, "unit": "ק\"ג", "category": "תבלינים", "minQuantity": 0
+  },
+  {
+    "id": "star-anise",
+    "name": "אניס כוכב",
+    "arabicName": "يانسون نجمة",
+    "aliases": ["אניס כוכב", "star anise", "يانسون نجمة"],
+    "quantity": 0, "unit": "ק\"ג", "category": "תבלינים", "minQuantity": 0
+  },
+  {
+    "id": "anise-ground",
+    "name": "אניסון טחון",
+    "arabicName": "يانسون مطحون",
+    "aliases": ["אניסון", "يانسون مطحون"],
+    "quantity": 0, "unit": "ק\"ג", "category": "תבלינים", "minQuantity": 0
+  },
+  {
+    "id": "turmeric",
+    "name": "כורכום טחון",
+    "arabicName": "كركم مطحون",
+    "aliases": ["כורכום", "turmeric", "كركم مطحون"],
+    "quantity": 0, "unit": "ק\"ג", "category": "תבלינים", "minQuantity": 0
+  },
+  {
+    "id": "cinnamon-sticks",
+    "name": "קינמון מקלות",
+    "arabicName": "قرفة عيدان",
+    "aliases": ["קינמון מקלות", "cinnamon sticks", "قرفة عيدان"],
+    "quantity": 0, "unit": "ק\"ג", "category": "תבלינים", "minQuantity": 0
+  },
+  {
+    "id": "cinnamon-ground",
+    "name": "קינמון טחון",
+    "arabicName": "قرفة مطحونة",
+    "aliases": ["קינמון", "cinnamon", "قرفة مطحونة"],
+    "quantity": 0, "unit": "ק\"ג", "category": "תבלינים", "minQuantity": 0
+  },
+  {
+    "id": "zaatar",
+    "name": "זעתר",
+    "arabicName": "زعتر",
+    "aliases": ["זעתר", "thyme", "زعتر"],
+    "quantity": 0, "unit": "ק\"ג", "category": "תבלינים", "minQuantity": 0
+  },
+  {
+    "id": "galangal",
+    "name": "גלנגל",
+    "arabicName": "خلنجان",
+    "aliases": ["חלנג'אן", "galangal", "خلنجان"],
+    "quantity": 0, "unit": "ק\"ג", "category": "תבלינים", "minQuantity": 0
+  },
+  {
+    "id": "sumac",
+    "name": "סומאק",
+    "arabicName": "سماق",
+    "aliases": ["סומק", "sumac", "سماق"],
+    "quantity": 0, "unit": "ק\"ג", "category": "תבלינים", "minQuantity": 0
+  },
+  {
+    "id": "himalayan-salt",
+    "name": "מלח הימלאיה",
+    "arabicName": "ملح همالايا",
+    "aliases": ["מלח", "himalaya", "ملح همالايا"],
+    "quantity": 0, "unit": "ק\"ג", "category": "תבלינים", "minQuantity": 0
+  },
+  {
+    "id": "bay-leaves",
+    "name": "עלי דפנה",
+    "arabicName": "ورق غار",
+    "aliases": ["דפנה", "bay leaves", "ورق غار"],
+    "quantity": 0, "unit": "ק\"ג", "category": "תבלינים", "minQuantity": 0
+  }
+]
