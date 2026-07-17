@@ -19,18 +19,18 @@ const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
 
 // ── Inventory REST endpoints ─────────────────────────────────────────────────
 
-app.get('/api/products', (_req, res) => {
+app.get('/api/products', async (_req, res) => {
   try {
-    res.json({ success: true, products: store.listProducts() });
+    res.json({ success: true, products: await store.listProducts() });
   } catch (err) {
     console.error('GET /api/products failed:', err);
     res.status(500).json({ success: false, error: err.message });
   }
 });
 
-app.post('/api/products', (req, res) => {
+app.post('/api/products', async (req, res) => {
   try {
-    const product = store.createProduct(req.body);
+    const product = await store.createProduct(req.body);
     res.json({ success: true, product });
   } catch (err) {
     console.error('POST /api/products failed:', err);
@@ -38,9 +38,9 @@ app.post('/api/products', (req, res) => {
   }
 });
 
-app.patch('/api/products/:id', (req, res) => {
+app.patch('/api/products/:id', async (req, res) => {
   try {
-    const product = store.updateProduct(req.params.id, req.body);
+    const product = await store.updateProduct(req.params.id, req.body);
     if (!product) return res.status(404).json({ success: false, error: 'מוצר לא נמצא' });
     res.json({ success: true, product });
   } catch (err) {
@@ -49,9 +49,9 @@ app.patch('/api/products/:id', (req, res) => {
   }
 });
 
-app.delete('/api/products/:id', (req, res) => {
+app.delete('/api/products/:id', async (req, res) => {
   try {
-    const ok = store.deleteProduct(req.params.id);
+    const ok = await store.deleteProduct(req.params.id);
     if (!ok) return res.status(404).json({ success: false, error: 'מוצר לא נמצא' });
     res.json({ success: true });
   } catch (err) {
@@ -60,17 +60,17 @@ app.delete('/api/products/:id', (req, res) => {
   }
 });
 
-app.get('/api/shuk', (_req, res) => {
+app.get('/api/shuk', async (_req, res) => {
   try {
-    res.json({ success: true, days: store.listShukDays() });
+    res.json({ success: true, days: await store.listShukDays() });
   } catch (err) {
     res.status(500).json({ success: false, error: err.message });
   }
 });
 
-app.post('/api/shuk', (req, res) => {
+app.post('/api/shuk', async (req, res) => {
   try {
-    store.saveShukDay(req.body);
+    await store.saveShukDay(req.body);
     res.json({ success: true });
   } catch (err) {
     res.status(500).json({ success: false, error: err.message });
