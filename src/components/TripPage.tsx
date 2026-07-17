@@ -51,9 +51,99 @@ function stockInUnits(item: ShukItem): number | null {
   return item.availableStock;
 }
 
+// ── Shuk day detail modal ─────────────────────────────────────────────────────
+
+function ShukDetailModal({ day, onClose }: { day: CompletedShuk; onClose: () => void }) {
+  const sold = day.items.filter(i => (i.quantitySold ?? 0) > 0);
+  const unsold = day.items.filter(i => i.quantityTaken > 0 && (i.quantitySold ?? 0) === 0);
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center bg-black/40" dir="rtl" onClick={onClose}>
+      <div
+        className="bg-white w-full sm:max-w-md rounded-t-3xl sm:rounded-2xl shadow-2xl flex flex-col overflow-hidden"
+        style={{ maxHeight: '85vh' }}
+        onClick={e => e.stopPropagation()}
+      >
+        {/* Header */}
+        <div className="bg-gradient-to-l from-blue-700 to-blue-600 text-white px-4 py-3 flex items-center justify-between flex-shrink-0">
+          <div>
+            <p className="font-bold">📅 {day.date}</p>
+            <p className="text-blue-100 text-[11px]">{sold.length} מוצרים נמכרו</p>
+          </div>
+          <button onClick={onClose} className="text-white/70 hover:text-white text-2xl w-8 h-8 flex items-center justify-center rounded-full hover:bg-white/10">×</button>
+        </div>
+
+        {/* Summary row */}
+        <div className="grid grid-cols-3 text-center bg-gray-50 border-b border-gray-200 px-2 py-3 flex-shrink-0">
+          <div>
+            <p className="text-sm font-bold text-red-600">{fmtCurrency(day.totalCost)}</p>
+            <p className="text-[10px] text-gray-500">עלות</p>
+          </div>
+          <div>
+            <p className="text-sm font-bold text-green-700">{fmtCurrency(day.totalRevenue)}</p>
+            <p className="text-[10px] text-gray-500">הכנסה</p>
+          </div>
+          <div>
+            <p className={`text-sm font-bold ${day.totalProfit >= 0 ? 'text-blue-700' : 'text-red-600'}`}>
+              {day.totalProfit >= 0 ? '+' : ''}{fmtCurrency(day.totalProfit)}
+            </p>
+            <p className="text-[10px] text-gray-500">רווח</p>
+          </div>
+        </div>
+
+        {/* Items list */}
+        <div className="flex-1 overflow-y-auto">
+          {sold.length > 0 && (
+            <>
+              <p className="text-[11px] font-semibold text-gray-500 px-4 pt-3 pb-1">נמכר</p>
+              {sold.map(item => {
+                const soldStorage = toStorage(item, item.quantitySold ?? 0);
+                const revenue = soldStorage * item.sellingPrice;
+                const cost = soldStorage * item.supplierPrice;
+                const profit = revenue - cost;
+                const label = unitLabel(item);
+                return (
+                  <div key={item.productId} className="flex items-center justify-between px-4 py-2.5 border-b border-gray-100">
+                    <div className="min-w-0">
+                      <p className="font-semibold text-gray-800 text-sm truncate">{item.productName}</p>
+                      <p className="text-[10px] text-gray-400">
+                        לקחתי {fmtNum(item.quantityTaken)} | נמכר {fmtNum(item.quantitySold ?? 0)} {label}
+                      </p>
+                    </div>
+                    <div className="text-left flex-shrink-0 mr-2">
+                      <p className="text-sm font-bold text-green-700">{fmtCurrency(revenue)}</p>
+                      <p className={`text-[10px] font-semibold ${profit >= 0 ? 'text-blue-600' : 'text-red-500'}`}>
+                        {profit >= 0 ? '+' : ''}{fmtCurrency(profit)} רווח
+                      </p>
+                    </div>
+                  </div>
+                );
+              })}
+            </>
+          )}
+
+          {unsold.length > 0 && (
+            <>
+              <p className="text-[11px] font-semibold text-gray-400 px-4 pt-3 pb-1">לא נמכר / הוחזר</p>
+              {unsold.map(item => (
+                <div key={item.productId} className="flex items-center justify-between px-4 py-2 border-b border-gray-100 opacity-50">
+                  <p className="text-sm text-gray-600">{item.productName}</p>
+                  <p className="text-xs text-gray-400">{fmtNum(item.quantityTaken)} {unitLabel(item)}</p>
+                </div>
+              ))}
+            </>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
+
 // ── No-trip screen ────────────────────────────────────────────────────────────
 
 function NoTripView({ onStart, history }: { onStart: () => void; history: CompletedShuk[] }) {
+  const [selected, setSelected] = useState<CompletedShuk | null>(null);
+
   return (
     <div className="flex flex-col h-full bg-gray-50 overflow-y-auto" dir="rtl">
       <div className="flex-1 flex flex-col items-center justify-center px-6 py-10 text-center">
@@ -78,8 +168,12 @@ function NoTripView({ onStart, history }: { onStart: () => void; history: Comple
             <span>📅</span> יציאות אחרונות
           </h3>
           <div className="space-y-2">
-            {history.slice(0, 8).map(t => (
-              <div key={t.id} className="bg-white rounded-xl shadow-sm p-4">
+            {history.slice(0, 30).map(t => (
+              <div
+                key={t.id}
+                onClick={() => setSelected(t)}
+                className="bg-white rounded-xl shadow-sm p-4 cursor-pointer hover:bg-blue-50/50 active:scale-[0.98] transition-all"
+              >
                 <div className="flex items-center justify-between mb-2">
                   <span className="font-medium text-gray-700 text-sm">{t.date}</span>
                   <span className={`text-xs font-bold px-2 py-0.5 rounded-full ${t.totalProfit >= 0 ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-600'}`}>
@@ -89,13 +183,15 @@ function NoTripView({ onStart, history }: { onStart: () => void; history: Comple
                 <div className="flex gap-4 text-xs text-gray-500">
                   <span>עלות: <b className="text-red-500">{fmtCurrency(t.totalCost)}</b></span>
                   <span>הכנסה: <b className="text-green-600">{fmtCurrency(t.totalRevenue)}</b></span>
-                  <span>{t.items.filter(i => (i.quantitySold ?? 0) > 0).length} מוצרים</span>
+                  <span>{t.items.filter(i => (i.quantitySold ?? 0) > 0).length} מוצרים ›</span>
                 </div>
               </div>
             ))}
           </div>
         </div>
       )}
+
+      {selected && <ShukDetailModal day={selected} onClose={() => setSelected(null)} />}
     </div>
   );
 }
