@@ -7,7 +7,7 @@ import { TripPage } from './components/TripPage';
 import { VoiceAssistant } from './components/VoiceAssistant';
 import { useInventory } from './hooks/useInventory';
 import { useChat } from './hooks/useChat';
-import { useTrip } from './hooks/useTrip';
+import { useShuk } from './hooks/useShuk';
 
 type AppPage = 'inventory' | 'prices' | 'trip';
 
@@ -26,18 +26,18 @@ export default function App() {
   });
 
   const {
-    trip, history,
-    startTrip, cancelTrip, addItem, removeItem,
+    shuk, history,
+    startShuk, cancelShuk, addItem, removeItem,
     updateQuantityTaken, updateQuantitySold,
-    goToReporting, goToPreparing, completeTrip,
-  } = useTrip();
+    goToReporting, goToPreparing, completeShuk,
+  } = useShuk();
 
   return (
     <div className="h-screen flex flex-col bg-gray-100 overflow-hidden" dir="rtl">
       <Header
         page={page}
         onPageChange={setPage}
-        hasActiveTrip={trip !== null}
+        hasActiveShuk={shuk !== null}
       />
 
       {/* Connection error banner */}
@@ -90,17 +90,17 @@ export default function App() {
           <div className="flex-1 overflow-hidden">
             <TripPage
               products={products}
-              trip={trip}
+              shuk={shuk}
               history={history}
-              onStartTrip={() => startTrip(products)}
-              onCancelTrip={cancelTrip}
+              onStartShuk={() => startShuk(products)}
+              onCancelShuk={cancelShuk}
               onAddItem={addItem}
               onRemoveItem={removeItem}
               onUpdateQuantityTaken={updateQuantityTaken}
               onUpdateQuantitySold={updateQuantitySold}
               onGoToReporting={goToReporting}
               onGoToPreparing={goToPreparing}
-              onCompleteTrip={() => completeTrip(subtractQuantity)}
+              onCompleteShuk={() => completeShuk(subtractQuantity)}
             />
           </div>
         )}

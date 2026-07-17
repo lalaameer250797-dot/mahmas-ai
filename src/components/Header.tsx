@@ -3,10 +3,10 @@ type AppPage = 'inventory' | 'prices' | 'trip';
 interface HeaderProps {
   page: AppPage;
   onPageChange: (p: AppPage) => void;
-  hasActiveTrip: boolean;
+  hasActiveShuk: boolean;
 }
 
-export function Header({ page, onPageChange, hasActiveTrip }: HeaderProps) {
+export function Header({ page, onPageChange, hasActiveShuk }: HeaderProps) {
   return (
     <header className="bg-gradient-to-l from-blue-700 to-blue-800 text-white flex-shrink-0 shadow-lg">
       {/* Top row */}
@@ -41,7 +41,7 @@ export function Header({ page, onPageChange, hasActiveTrip }: HeaderProps) {
           onClick={() => onPageChange('trip')}
           icon="🛒"
           label="יום שוק"
-          badge={hasActiveTrip}
+          badge={hasActiveShuk}
         />
       </div>
     </header>

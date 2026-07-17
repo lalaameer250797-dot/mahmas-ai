@@ -56,9 +56,9 @@ export interface Message {
   skipFromHistory?: boolean;
 }
 
-// ── Trip (market day) types ──────────────────────────────────────────────────
+// ── Shuk (market day / יום שוק) types ───────────────────────────────────────
 
-export interface TripItem {
+export interface ShukItem {
   productId: string;
   productName: string;
   arabicName?: string;
@@ -69,24 +69,24 @@ export interface TripItem {
   quantitySold: number | null;
   supplierPrice: number;                            // ₪ per storage unit (per ק"ג)
   sellingPrice: number;                             // ₪ per storage unit
-  availableStock?: number;                          // storage-unit stock snapshot at trip start
+  availableStock?: number;                          // storage-unit stock snapshot at shuk start
 }
 
-export type TripStep = 'preparing' | 'reporting';
+export type ShukStep = 'preparing' | 'reporting';
 
-export interface ActiveTrip {
+export interface ActiveShuk {
   id: string;
   date: string;                                     // creation date
   expectedEndDate?: string;                         // ISO — next Saturday from creation
-  items: TripItem[];
-  step: TripStep;
+  items: ShukItem[];
+  step: ShukStep;
 }
 
-export interface CompletedTrip {
+export interface CompletedShuk {
   id: string;
   date: string;
   completedAt: string;
-  items: TripItem[];
+  items: ShukItem[];
   totalCost: number;
   totalRevenue: number;
   totalProfit: number;

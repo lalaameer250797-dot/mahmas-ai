@@ -1,5 +1,5 @@
 import { useState, useMemo } from 'react';
-import { Product, ActiveTrip, CompletedTrip, TripItem } from '../types';
+import { Product, ActiveShuk, CompletedShuk, ShukItem } from '../types';
 
 // ── helpers ──────────────────────────────────────────────────────────────────
 
@@ -24,23 +24,23 @@ function storageUnitInGrams(unit: string): number {
 }
 // A "unit" on shook day = a retail pack if packSize defined; otherwise raw
 // storage unit. Works for products stored in ק"ג OR גרם.
-function toStorage(item: TripItem, qty: number): number {
+function toStorage(item: ShukItem, qty: number): number {
   if (item.packSize) return (qty * item.packSize) / storageUnitInGrams(item.unit);
   return qty;
 }
-function unitCost(item: TripItem)   { return toStorage(item, 1) * item.supplierPrice; }
-function unitPrice(item: TripItem)  { return toStorage(item, 1) * item.sellingPrice; }
-function itemCost(item: TripItem)    { return toStorage(item, item.quantitySold ?? 0) * item.supplierPrice; }
-function itemRevenue(item: TripItem) { return toStorage(item, item.quantitySold ?? 0) * item.sellingPrice; }
-function itemTakenCost(item: TripItem) { return toStorage(item, item.quantityTaken) * item.supplierPrice; }
+function unitCost(item: ShukItem)   { return toStorage(item, 1) * item.supplierPrice; }
+function unitPrice(item: ShukItem)  { return toStorage(item, 1) * item.sellingPrice; }
+function itemCost(item: ShukItem)    { return toStorage(item, item.quantitySold ?? 0) * item.supplierPrice; }
+function itemRevenue(item: ShukItem) { return toStorage(item, item.quantitySold ?? 0) * item.sellingPrice; }
+function itemTakenCost(item: ShukItem) { return toStorage(item, item.quantityTaken) * item.supplierPrice; }
 
 // Human-friendly label of a shook-day "unit"
-function unitLabel(item: TripItem): string {
+function unitLabel(item: ShukItem): string {
   if (item.packSize) return `${item.packSize} גרם`;
   return item.unit;
 }
 // How many "shook units" fit in the current stock
-function stockInUnits(item: TripItem): number | null {
+function stockInUnits(item: ShukItem): number | null {
   if (item.availableStock == null) return null;
   if (item.packSize) return Math.floor((item.availableStock * storageUnitInGrams(item.unit)) / item.packSize);
   return item.availableStock;
@@ -48,7 +48,7 @@ function stockInUnits(item: TripItem): number | null {
 
 // ── No-trip screen ────────────────────────────────────────────────────────────
 
-function NoTripView({ onStart, history }: { onStart: () => void; history: CompletedTrip[] }) {
+function NoTripView({ onStart, history }: { onStart: () => void; history: CompletedShuk[] }) {
   return (
     <div className="flex flex-col h-full bg-gray-50 overflow-y-auto" dir="rtl">
       <div className="flex-1 flex flex-col items-center justify-center px-6 py-10 text-center">
@@ -100,7 +100,7 @@ function NoTripView({ onStart, history }: { onStart: () => void; history: Comple
 function TripHeader({
   trip, step, onCancel,
 }: {
-  trip: ActiveTrip; step: 1 | 2; onCancel: () => void;
+  trip: ActiveShuk; step: 1 | 2; onCancel: () => void;
 }) {
   const today = new Date().toISOString().slice(0, 10);
   const isEndDay = trip.expectedEndDate && (today >= trip.expectedEndDate || isSaturday(today));
@@ -137,7 +137,7 @@ function TripHeader({
 function TripToolbar({
   items, search, setSearch, category, setCategory, extraChips,
 }: {
-  items: TripItem[];
+  items: ShukItem[];
   search: string; setSearch: (v: string) => void;
   category: string | null; setCategory: (v: string | null) => void;
   extraChips?: React.ReactNode;
@@ -176,7 +176,7 @@ function PreparingView({
   onProceedToEnd,
   onCancel,
 }: {
-  trip: ActiveTrip;
+  trip: ActiveShuk;
   onUpdateQty: (id: string, qty: number) => void;
   onProceedToEnd: () => void;
   onCancel: () => void;
@@ -271,7 +271,7 @@ function PreparingRow({
   item,
   onUpdateQty,
 }: {
-  item: TripItem;
+  item: ShukItem;
   onUpdateQty: (qty: number) => void;
 }) {
   const isTaken = item.quantityTaken > 0;
@@ -327,7 +327,7 @@ function EndingView({
   onBackToPreparing,
   onCancel,
 }: {
-  trip: ActiveTrip;
+  trip: ActiveShuk;
   onUpdateSold: (id: string, sold: number) => void;
   onComplete: () => void;
   onBackToPreparing: () => void;
@@ -443,7 +443,7 @@ function EndingRow({
   item,
   onUpdateSold,
 }: {
-  item: TripItem;
+  item: ShukItem;
   onUpdateSold: (id: string, sold: number) => void;
 }) {
   // User edits "remaining" (in units) — we translate to sold = taken - remaining
@@ -651,46 +651,46 @@ function SummaryCell({ label, value, valueClass }: { label: string; value: strin
 // ── Main TripPage ─────────────────────────────────────────────────────────────
 
 interface TripPageProps {
-  products: Product[];                                // unused (kept for API stability)
-  trip: ActiveTrip | null;
-  history: CompletedTrip[];
-  onStartTrip: () => void;
-  onCancelTrip: () => void;
-  onAddItem: (p: Product, qty: number) => void;      // unused
-  onRemoveItem: (id: string) => void;                 // unused
+  products: Product[];
+  shuk: ActiveShuk | null;
+  history: CompletedShuk[];
+  onStartShuk: () => void;
+  onCancelShuk: () => void;
+  onAddItem: (p: Product, qty: number) => void;
+  onRemoveItem: (id: string) => void;
   onUpdateQuantityTaken: (id: string, qty: number) => void;
   onUpdateQuantitySold: (id: string, qty: number) => void;
   onGoToReporting: () => void;
   onGoToPreparing: () => void;
-  onCompleteTrip: () => void;
+  onCompleteShuk: () => void;
 }
 
 export function TripPage({
-  trip, history,
-  onStartTrip, onCancelTrip,
+  shuk, history,
+  onStartShuk, onCancelShuk,
   onUpdateQuantityTaken, onUpdateQuantitySold,
-  onGoToReporting, onGoToPreparing, onCompleteTrip,
+  onGoToReporting, onGoToPreparing, onCompleteShuk,
 }: TripPageProps) {
-  if (!trip) {
-    return <NoTripView onStart={onStartTrip} history={history} />;
+  if (!shuk) {
+    return <NoTripView onStart={onStartShuk} history={history} />;
   }
-  if (trip.step === 'preparing') {
+  if (shuk.step === 'preparing') {
     return (
       <PreparingView
-        trip={trip}
+        trip={shuk}
         onUpdateQty={onUpdateQuantityTaken}
         onProceedToEnd={onGoToReporting}
-        onCancel={onCancelTrip}
+        onCancel={onCancelShuk}
       />
     );
   }
   return (
     <EndingView
-      trip={trip}
+      trip={shuk}
       onUpdateSold={onUpdateQuantitySold}
-      onComplete={onCompleteTrip}
+      onComplete={onCompleteShuk}
       onBackToPreparing={onGoToPreparing}
-      onCancel={onCancelTrip}
+      onCancel={onCancelShuk}
     />
   );
 }

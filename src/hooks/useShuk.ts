@@ -1,20 +1,15 @@
 import { useState, useEffect, useCallback } from 'react';
-import { ActiveTrip, CompletedTrip, TripItem, Product } from '../types';
+import { ActiveShuk, CompletedShuk, ShukItem, Product } from '../types';
 
-const ACTIVE_KEY = 'mahmas-active-trip';
-const HISTORY_KEY = 'mahmas-trip-history';
+const ACTIVE_KEY = 'mahmas-active-shuk';
 
-// Convert a shook-day quantity (packs OR raw storage units) to storage units.
-// If packSize is defined, quantities are packs and we scale by packSize / storageUnitInGrams.
-export function toStorageUnits(item: TripItem, qty: number): number {
+export function toStorageUnits(item: ShukItem, qty: number): number {
   if (!item.packSize) return qty;
   const gramsPerStorage = item.unit === 'ק"ג' ? 1000 : 1;
   return (qty * item.packSize) / gramsPerStorage;
 }
 
-function calcTotals(items: TripItem[]) {
-  // Cost is the cost of goods actually sold. Revenue = sold * selling price.
-  // All prices are per storage-unit (per ק"ג), so we convert sold quantity first.
+function calcTotals(items: ShukItem[]) {
   let totalCost = 0;
   let totalRevenue = 0;
   for (const item of items) {
@@ -26,45 +21,44 @@ function calcTotals(items: TripItem[]) {
   return { totalCost, totalRevenue, totalProfit: totalRevenue - totalCost };
 }
 
-// Next Saturday (or today if today is Saturday). Returns ISO date (YYYY-MM-DD).
 function getNextSaturday(from = new Date()): string {
   const d = new Date(from);
   d.setHours(0, 0, 0, 0);
-  const dow = d.getDay();                  // 0 = Sunday ... 6 = Saturday
+  const dow = d.getDay();
   const daysUntilSat = (6 - dow + 7) % 7;
   d.setDate(d.getDate() + daysUntilSat);
   return d.toISOString().slice(0, 10);
 }
 
-export function useTrip() {
-  const [trip, setTrip] = useState<ActiveTrip | null>(() => {
+export function useShuk() {
+  const [shuk, setShuk] = useState<ActiveShuk | null>(() => {
     try {
       const s = localStorage.getItem(ACTIVE_KEY);
       return s ? JSON.parse(s) : null;
     } catch { return null; }
   });
 
-  const [history, setHistory] = useState<CompletedTrip[]>(() => {
-    try {
-      const s = localStorage.getItem(HISTORY_KEY);
-      return s ? JSON.parse(s) : [];
-    } catch { return []; }
-  });
+  const [history, setHistory] = useState<CompletedShuk[]>([]);
 
   useEffect(() => {
-    if (trip) localStorage.setItem(ACTIVE_KEY, JSON.stringify(trip));
+    if (shuk) localStorage.setItem(ACTIVE_KEY, JSON.stringify(shuk));
     else localStorage.removeItem(ACTIVE_KEY);
-  }, [trip]);
+  }, [shuk]);
 
-  useEffect(() => {
-    localStorage.setItem(HISTORY_KEY, JSON.stringify(history));
-  }, [history]);
+  const loadHistory = useCallback(async () => {
+    try {
+      const res = await fetch('/api/shuk');
+      const data = await res.json();
+      if (data.success) setHistory(data.days);
+    } catch (err) {
+      console.error('Failed to load shuk history:', err);
+    }
+  }, []);
 
-  const startTrip = useCallback((products: Product[]) => {
-    // All items go into the day's table. Quantities start at 0 — user fills
-    // in "how many units I'm taking" for each product. If the product has a
-    // packSize, quantities are counted in packs; otherwise in storage units.
-    const items: TripItem[] = products.map(p => ({
+  useEffect(() => { loadHistory(); }, [loadHistory]);
+
+  const startShuk = useCallback((products: Product[]) => {
+    const items: ShukItem[] = products.map(p => ({
       productId: p.id,
       productName: p.name,
       arabicName: p.arabicName,
@@ -77,7 +71,7 @@ export function useTrip() {
       sellingPrice: p.sellingPrice ?? 0,
       availableStock: p.quantity,
     }));
-    setTrip({
+    setShuk({
       id: Date.now().toString(),
       date: new Date().toLocaleDateString('he-IL', { day: '2-digit', month: '2-digit', year: 'numeric' }),
       expectedEndDate: getNextSaturday(),
@@ -86,16 +80,16 @@ export function useTrip() {
     });
   }, []);
 
-  const cancelTrip = useCallback(() => setTrip(null), []);
+  const cancelShuk = useCallback(() => setShuk(null), []);
 
   const addItem = useCallback((product: Product, quantity: number) => {
-    setTrip(prev => {
+    setShuk(prev => {
       if (!prev) return prev;
       const exists = prev.items.find(i => i.productId === product.id);
       if (exists) {
         return { ...prev, items: prev.items.map(i => i.productId === product.id ? { ...i, quantityTaken: quantity } : i) };
       }
-      const newItem: TripItem = {
+      const newItem: ShukItem = {
         productId: product.id,
         productName: product.name,
         unit: product.unit,
@@ -109,71 +103,74 @@ export function useTrip() {
   }, []);
 
   const removeItem = useCallback((productId: string) => {
-    setTrip(prev => prev ? { ...prev, items: prev.items.filter(i => i.productId !== productId) } : prev);
+    setShuk(prev => prev ? { ...prev, items: prev.items.filter(i => i.productId !== productId) } : prev);
   }, []);
 
   const updateQuantityTaken = useCallback((productId: string, qty: number) => {
-    setTrip(prev => prev
+    setShuk(prev => prev
       ? { ...prev, items: prev.items.map(i => i.productId === productId ? { ...i, quantityTaken: qty } : i) }
       : prev
     );
   }, []);
 
   const updateQuantitySold = useCallback((productId: string, qty: number) => {
-    setTrip(prev => prev
+    setShuk(prev => prev
       ? { ...prev, items: prev.items.map(i => i.productId === productId ? { ...i, quantitySold: qty } : i) }
       : prev
     );
   }, []);
 
   const goToReporting = useCallback(() => {
-    setTrip(prev => prev ? { ...prev, step: 'reporting' } : prev);
+    setShuk(prev => prev ? { ...prev, step: 'reporting' } : prev);
   }, []);
 
   const goToPreparing = useCallback(() => {
-    setTrip(prev => prev ? { ...prev, step: 'preparing' } : prev);
+    setShuk(prev => prev ? { ...prev, step: 'preparing' } : prev);
   }, []);
 
-  const completeTrip = useCallback((onSubtract: (productId: string, qty: number) => void) => {
-    if (!trip) return;
-    const { totalCost, totalRevenue, totalProfit } = calcTotals(trip.items);
-    const completed: CompletedTrip = {
-      id: trip.id,
-      date: trip.date,
+  const completeShuk = useCallback(async (onSubtract: (productId: string, qty: number) => void) => {
+    if (!shuk) return;
+    const { totalCost, totalRevenue, totalProfit } = calcTotals(shuk.items);
+    const completed: CompletedShuk = {
+      id: shuk.id,
+      date: shuk.date,
       completedAt: new Date().toISOString(),
-      items: trip.items,
+      items: shuk.items,
       totalCost,
       totalRevenue,
       totalProfit,
     };
-    // Deduct sold quantities from inventory — convert packs → storage units first
-    for (const item of trip.items) {
+    for (const item of shuk.items) {
       if (item.quantitySold != null && item.quantitySold > 0) {
         onSubtract(item.productId, toStorageUnits(item, item.quantitySold));
       }
     }
-    setHistory(prev => [completed, ...prev].slice(0, 30));
-    setTrip(null);
-  }, [trip]);
-
-  const clearHistory = useCallback(() => {
-    setHistory([]);
-    localStorage.removeItem(HISTORY_KEY);
-  }, []);
+    try {
+      await fetch('/api/shuk', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(completed),
+      });
+      await loadHistory();
+    } catch (err) {
+      console.error('Failed to save shuk day:', err);
+      setHistory(prev => [completed, ...prev].slice(0, 30));
+    }
+    setShuk(null);
+  }, [shuk, loadHistory]);
 
   return {
-    trip,
+    shuk,
     history,
-    startTrip,
-    cancelTrip,
+    startShuk,
+    cancelShuk,
     addItem,
     removeItem,
     updateQuantityTaken,
     updateQuantitySold,
     goToReporting,
     goToPreparing,
-    completeTrip,
-    clearHistory,
+    completeShuk,
     calcTotals,
   };
 }

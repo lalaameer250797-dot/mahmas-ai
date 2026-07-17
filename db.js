@@ -117,8 +117,21 @@ const migrations = [
       CREATE INDEX IF NOT EXISTS idx_history_product ON price_history(product_id);
     `);
   },
-  // Add future migrations here as functions. They will run in order and only once.
-  // Example: () => { if (!tableHasColumn('products', 'notes')) db.exec(`ALTER TABLE products ADD COLUMN notes TEXT`); },
+  // ── v2: shuk (market day) history ────────────────────────────────────────
+  () => {
+    db.exec(`
+      CREATE TABLE IF NOT EXISTS shuk_days (
+        id           TEXT PRIMARY KEY,
+        date         TEXT NOT NULL,
+        completed_at TEXT NOT NULL,
+        items        TEXT NOT NULL DEFAULT '[]',
+        total_cost   REAL NOT NULL DEFAULT 0,
+        total_revenue REAL NOT NULL DEFAULT 0,
+        total_profit  REAL NOT NULL DEFAULT 0
+      );
+      CREATE INDEX IF NOT EXISTS idx_shuk_completed ON shuk_days(completed_at DESC);
+    `);
+  },
 ];
 
 const currentVersion = getVersion();
@@ -305,6 +318,35 @@ export function updateProduct(id, patch) {
 export function deleteProduct(id) {
   const info = stmts.deleteProduct.run(id);
   return info.changes > 0;
+}
+
+// ── Shuk (market day) API ─────────────────────────────────────────────────────
+
+export function listShukDays() {
+  return db.prepare(`SELECT * FROM shuk_days ORDER BY completed_at DESC`).all().map(r => ({
+    id: r.id,
+    date: r.date,
+    completedAt: r.completed_at,
+    items: JSON.parse(r.items),
+    totalCost: r.total_cost,
+    totalRevenue: r.total_revenue,
+    totalProfit: r.total_profit,
+  }));
+}
+
+export function saveShukDay(day) {
+  db.prepare(`
+    INSERT OR REPLACE INTO shuk_days (id, date, completed_at, items, total_cost, total_revenue, total_profit)
+    VALUES (?, ?, ?, ?, ?, ?, ?)
+  `).run(
+    day.id,
+    day.date,
+    day.completedAt,
+    JSON.stringify(day.items),
+    day.totalCost,
+    day.totalRevenue,
+    day.totalProfit,
+  );
 }
 
 // NOTE: bulk reset/wipe functions were intentionally removed to protect data.

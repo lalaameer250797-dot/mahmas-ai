@@ -7,6 +7,8 @@ import path from 'path';
 import { existsSync } from 'fs';
 import * as store from './db.js';
 
+// ── Shuk (market day) endpoints ──────────────────────────────────────────────
+
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 const app = express();
@@ -54,6 +56,23 @@ app.delete('/api/products/:id', (req, res) => {
     res.json({ success: true });
   } catch (err) {
     console.error(`DELETE /api/products/${req.params.id} failed:`, err);
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
+
+app.get('/api/shuk', (_req, res) => {
+  try {
+    res.json({ success: true, days: store.listShukDays() });
+  } catch (err) {
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
+
+app.post('/api/shuk', (req, res) => {
+  try {
+    store.saveShukDay(req.body);
+    res.json({ success: true });
+  } catch (err) {
     res.status(500).json({ success: false, error: err.message });
   }
 });
