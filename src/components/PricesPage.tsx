@@ -10,6 +10,11 @@ function fmt(n?: number | null) {
   return Number.isInteger(n) ? `₪${n}` : `₪${n.toFixed(1)}`;
 }
 
+// Round half-down: ≤ 0.5 floors, > 0.5 ceils — no floaters on unit prices
+function roundUnit(n: number): number {
+  return Math.ceil(n - 0.5);
+}
+
 // Grams contained in one storage unit (ק"ג = 1000g, גרם = 1g)
 function storageUnitInGrams(unit: string): number {
   return unit === 'ק"ג' ? 1000 : 1;
@@ -221,11 +226,11 @@ export function PricesPage({ products, onUpdatePrice, onUpdateMeta }: PricesPage
                       {packSell != null ? (
                         <div>
                           <p className="text-sm font-bold text-green-700">
-                            ₪{Number.isInteger(packSell) ? packSell : packSell.toFixed(2)}
+                            ₪{roundUnit(packSell)}
                           </p>
                           {packCost != null && (
                             <p className="text-[10px] text-gray-400">
-                              עלות ₪{Number.isInteger(packCost) ? packCost : packCost.toFixed(2)}
+                              עלות ₪{roundUnit(packCost)}
                             </p>
                           )}
                         </div>

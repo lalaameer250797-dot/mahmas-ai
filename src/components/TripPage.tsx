@@ -3,6 +3,11 @@ import { Product, ActiveShuk, CompletedShuk, ShukItem } from '../types';
 
 // ── helpers ──────────────────────────────────────────────────────────────────
 
+// Round half-down: ≤ 0.5 floors, > 0.5 ceils — no floaters on unit prices
+function roundUnit(n: number): number {
+  return Math.ceil(n - 0.5);
+}
+
 function fmtCurrency(n: number) {
   return `₪${n % 1 === 0 ? n : n.toFixed(1)}`;
 }
@@ -294,7 +299,7 @@ function PreparingRow({
               יחידה = {label}
             </span>
             {perUnitPrice > 0 && (
-              <span className="text-green-700">₪{perUnitPrice.toFixed(1)}/יח׳</span>
+              <span className="text-green-700">₪{roundUnit(perUnitPrice)}/יח׳</span>
             )}
           </div>
         </div>
@@ -474,7 +479,7 @@ function EndingRow({
               יחידה = {label}
             </span>
             {perUnitPrice > 0 && (
-              <span className="text-green-700">₪{perUnitPrice.toFixed(1)}/יח׳</span>
+              <span className="text-green-700">₪{roundUnit(perUnitPrice)}/יח׳</span>
             )}
           </div>
           {/* Mobile-only: show sold + profit inline */}
