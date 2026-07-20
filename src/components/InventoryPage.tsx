@@ -33,6 +33,7 @@ function quantityInUnits(p: Product): number {
 
 function getStockStatus(p: Product): 'ok' | 'low' | 'empty' {
   if (p.quantity <= 0) return 'empty';
+  if (quantityInUnits(p) < 3) return 'low';
   if (p.minQuantity > 0 && p.quantity <= p.minQuantity) return 'low';
   return 'ok';
 }

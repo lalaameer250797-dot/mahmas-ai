@@ -1,5 +1,6 @@
 node_modules/
 .env
+.mcp.json
 dist/
 data/mahmas.db
 data/mahmas.db-shm

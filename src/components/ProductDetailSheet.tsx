@@ -26,14 +26,20 @@ function fmtDate(iso: string) {
   return `${day}/${month}`;
 }
 
-function getStockStatus(p: Product): 'ok' | 'low' | 'empty' {
-  if (p.quantity <= 0) return 'empty';
-  if (p.minQuantity > 0 && p.quantity <= p.minQuantity) return 'low';
-  return 'ok';
-}
-
 function storageUnitInGrams(unit: string): number {
   return unit === 'ק"ג' ? 1000 : 1;
+}
+
+function quantityInUnits(p: Product): number {
+  if (p.packSize) return (p.quantity * storageUnitInGrams(p.unit)) / p.packSize;
+  return p.quantity;
+}
+
+function getStockStatus(p: Product): 'ok' | 'low' | 'empty' {
+  if (p.quantity <= 0) return 'empty';
+  if (quantityInUnits(p) < 3) return 'low';
+  if (p.minQuantity > 0 && p.quantity <= p.minQuantity) return 'low';
+  return 'ok';
 }
 function packPrice(p: Product): number | null {
   if (p.sellingPrice == null || p.packSize == null) return null;
